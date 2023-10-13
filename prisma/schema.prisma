@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        BigInt   @id @default(autoincrement())
+  userId    String   @unique @map("user_id") @db.Char(8)
+  userName  String?  @map("user_name") @db.VarChar(32)
+  avatar    String?  @db.VarChar(255)
+  password  String?  @db.VarChar(255)
+  tel       String?  @unique @db.Char(11)
+  /// 地址
+  addr      String?  @db.VarChar(255)
+  /// 上级userid
+  superior  String?  @db.Char(8)
+  /// 账号创建时间
+  addTime   DateTime @default(now()) @map("add_time")
+  /// 微信appid
+  wxAppid   String?  @map("wx_appid") @db.VarChar(128)
+  /// 微信openid
+  wxOpenid  String?  @unique @map("wx_openid") @db.VarChar(128)
+  /// 微信unionid
+  wxUnionid String?  @unique @map("wx_unionid") @db.VarChar(128)
+
+  @@map("t_user")
+}
